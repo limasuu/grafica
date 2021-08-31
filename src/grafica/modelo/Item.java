@@ -51,6 +51,6 @@ public class Item {
 	public String toString() {
 
 		return descricao + " (At. " + quantidadeAtacado + 
-				"\n" + modelo + " | R$ " + String.format("%.2f", valor);
+				")\n" + modelo + " | Valor unitário= R$ " + String.format("%.2f", valor);
 	}	
 }

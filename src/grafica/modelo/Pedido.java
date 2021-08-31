@@ -57,7 +57,7 @@ public class Pedido {
 		double total= 0.0;
 		
 		for(ItemPedido ip : itens)
-			total= total + ip.getItem().getValor() * ip.getQuantidade();
+			total= total + ip.getValor();
 		
 		return total;
 	}
@@ -71,7 +71,7 @@ public class Pedido {
 
 
 		for(ItemPedido ip : itens)
-			retorno= retorno + ip + "\n\n";
+			retorno= retorno + "- " + ip + "\n\n";
 
 		retorno= retorno + "---------------------------------------------------------\n" +
 					"Total= R$ " +  String.format("%.2f", getTotal()) + 

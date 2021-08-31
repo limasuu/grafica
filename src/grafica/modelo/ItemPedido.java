@@ -25,9 +25,14 @@ public class ItemPedido {
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
 	}
+	
+	public double getValor() {
+		return item.getValor() * quantidade;
+	}
 
 	@Override
 	public String toString() {
-		return item + "\n" + quantidade + " unidade(s)";
+		return item + "\n" + quantidade + " unidade(s)" +
+				" | Valor item= R$ " + String.format("%.2f", getValor()) +" <=";
 	}
 }

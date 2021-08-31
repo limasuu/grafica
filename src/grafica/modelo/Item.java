@@ -1,12 +1,12 @@
 package grafica.modelo;
 
 public class Item {
-	
+
 	private String descricao;
 	private String modelo;
 	private int quantidadeAtacado;
 	private double valor;
-	
+
 	public Item(String descricao, String modelo, int quantidadeAtacado, double valor) {
 
 		this.descricao = descricao;
@@ -46,6 +46,11 @@ public class Item {
 	public void setValor(double valor) {
 		this.valor = valor;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+
+		return descricao + " (At. " + quantidadeAtacado + 
+				"\n" + modelo + " | R$ " + String.format("%.2f", valor);
+	}	
 }

@@ -2,15 +2,16 @@ package grafica.modelo;
 
 public enum ModeloCopia {
 	
-	CORA3("Colorida", "A3", 3.60),
-	CORA4("Colorida", "A4", 1.80),
-	PBA3("Preto e branco", "A3", 0.65),
-	PBA4("Preto e branco", "A4", 0.30);
+	CORA3(TipoCor.COR, TipoFormato.A3, 3.60),
+	CORA4(TipoCor.COR, TipoFormato.A4, 1.80),
+	PBA3(TipoCor.PB, TipoFormato.A3, 0.65),
+	PBA4(TipoCor.PB, TipoFormato.A4, 0.30);
 	
-	private String formato, cor;
+	private TipoCor cor;
+	private TipoFormato formato;	
 	private double preco;
 	
-	private ModeloCopia(String cor, String formato, double preco) {
+	private ModeloCopia(TipoCor cor, TipoFormato formato, double preco) {
 		
 		this.cor = cor;
 		this.formato = formato;
@@ -18,11 +19,11 @@ public enum ModeloCopia {
 	}
 
 	public String getFormato() {
-		return formato;
+		return formato.getFormato();
 	}
 
 	public String getCor() {
-		return cor;
+		return cor.getCor();
 	}
 
 	public double getPreco() {
@@ -30,6 +31,6 @@ public enum ModeloCopia {
 	}
 	
 	public String getModelo() {
-		return cor + " | " + formato;
+		return getCor() + " | " + getFormato();
 	}
 }

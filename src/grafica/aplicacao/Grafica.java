@@ -3,8 +3,13 @@ package grafica.aplicacao;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import grafica.modelo.Copia;
+import grafica.modelo.Item;
 import grafica.modelo.ItemPedido;
+import grafica.modelo.ModeloCopia;
 import grafica.modelo.Pedido;
+import grafica.modelo.TipoCor;
+import grafica.modelo.TipoFormato;
 
 public class Grafica {
 
@@ -52,9 +57,9 @@ public class Grafica {
 
 		while(!atendimentoConcluido) {
 			prestarServico(pedido);	
-
+			
 			int escolha;
-			System.out.println(".\n.Há outro o serviço a ser registrado? ");
+			System.out.println(".\n. Há outro o serviço a ser registrado? ");
 			System.out.println( ".1. Sim .......... 2. Não");
 			escolha= lerInteiroTeclado(1, 2);
 
@@ -74,63 +79,119 @@ public class Grafica {
 
 		ItemPedido itemPedido= null;
 
-		System.out.println(".");
+		System.out.println("...................");
 		for(ServicosGrafica servico : ServicosGrafica.values())
-			System.out.println("." + servico.getId() + " " + servico.getServico());
-
+			System.out.println("." + (servico.ordinal()+1) + " " + servico.getServico());
+		System.out.println("...................");
+		
 		int escolha;
-		System.out.println(".\n.Informe o serviço prestado: ");
-		escolha= lerInteiroTeclado(1, 5);
+		System.out.println(". Informe o serviço prestado: ");
+		escolha= lerInteiroTeclado(1, ServicosGrafica.values().length);
 
 		switch(escolha) {
 
 		case 1:			
-			prestarServicoCopia(itemPedido);
+			itemPedido= prestarServicoCopia();
 			break;
-			
+
 		case 2:			
-			prestarServicoImpressao(itemPedido);
+			itemPedido= prestarServicoImpressao();
 			break;
-			
+
 		case 3:			
-			prestarServicoEncadernacao(itemPedido);
+			itemPedido= prestarServicoEncadernacao();
 			break;
-			
+
 		case 4:			
-			prestarServicoPlastificacao(itemPedido);
+			itemPedido= prestarServicoPlastificacao();
 			break;
-			
+
 		case 5:			
-			prestarServicoCartaoVisita(itemPedido);
+			itemPedido= prestarServicoCartaoVisita();
 			break;
 		}		
-		
+
 		pedido.insereItem(itemPedido);
 	}
 
-	private static void prestarServicoCopia(ItemPedido itemPedido) {
-		// TODO Auto-generated method stub
+	private static ItemPedido prestarServicoCopia() {
 
+		ItemPedido itemPedido= null;
+		
+		System.out.println("...................");
+		for(TipoFormato formato : TipoFormato.values()) 
+			System.out.println("." + (formato.ordinal()+1) + " " + formato.getFormato() + ".");
+		System.out.println("...................");
+		
+		int escolha;
+		System.out.println(". Informe o formato: ");
+		escolha= lerInteiroTeclado(1, TipoFormato.values().length);
+
+		switch(escolha) {
+
+		case 1:
+			itemPedido= prestarServicoCopiaA3();
+			break;
+		case 2:
+//	prestarServicoCopiaA4(copia);
+			break;
+		}
+
+		return itemPedido;
+	}
+
+	private static ItemPedido prestarServicoCopiaA3() {
+		
+		Copia copia= null;
+		
+		System.out.println("...................");
+		for(TipoCor cor : TipoCor.values())
+			System.out.println("." + (cor.ordinal()+1) + " " + cor.getCor());
+		System.out.println("...................");
+		
+		int escolha;
+		System.out.println(". Informe a cor: ");
+		escolha= lerInteiroTeclado(1, TipoCor.values().length);
+		
+		switch(escolha) {
+		
+		case 1:
+			copia= new Copia(ModeloCopia.CORA3);			
+			break;
+		case 2:
+			copia= new Copia(ModeloCopia.PBA3);
+			break;
+		}
+		
+		return registrarQuantidadeItem(copia);		
+	}
+
+	private static ItemPedido prestarServicoImpressao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private static ItemPedido prestarServicoEncadernacao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private static ItemPedido prestarServicoPlastificacao() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private static ItemPedido prestarServicoCartaoVisita() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
-	private static void prestarServicoImpressao(ItemPedido itemPedido) {
-		// TODO Auto-generated method stub
+	private static ItemPedido registrarQuantidadeItem(Item item) {
 		
-	}
-
-	private static void prestarServicoEncadernacao(ItemPedido itemPedido) {
-		// TODO Auto-generated method stub
+		System.out.println(". Informe a quantidade: ");		
+		int quantidade= lerInteiroTeclado(1, 99999999);
 		
-	}
-	
-	private static void prestarServicoPlastificacao(ItemPedido itemPedido) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private static void prestarServicoCartaoVisita(ItemPedido itemPedido) {
-		// TODO Auto-generated method stub
-		
+		return new ItemPedido(item, quantidade);
 	}
 
 	private static int lerInteiroTeclado(int opcaoInicial, int opcaoFinal) {

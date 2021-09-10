@@ -4,12 +4,16 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import grafica.modelo.Copia;
+import grafica.modelo.Encadernacao;
 import grafica.modelo.Impressao;
 import grafica.modelo.Item;
 import grafica.modelo.ItemPedido;
 import grafica.modelo.ModeloCopia;
+import grafica.modelo.ModeloEncadernacao;
 import grafica.modelo.ModeloImpressao;
 import grafica.modelo.Pedido;
+import grafica.modelo.TipoAcabamento;
+import grafica.modelo.TipoCapa;
 import grafica.modelo.TipoCor;
 import grafica.modelo.TipoFormato;
 
@@ -59,7 +63,7 @@ public class Grafica {
 
 		while(!atendimentoConcluido) {
 			prestarServico(pedido);	
-
+			
 			int escolha;
 			System.out.println(".\n. Há outro o serviço a ser registrado? ");
 			System.out.println( ".1. Sim .......... 2. Não");
@@ -118,41 +122,48 @@ public class Grafica {
 
 	private static ItemPedido prestarServicoCopia() {
 
-		ModeloCopia[][] modelo= new ModeloCopia[4][2];
+		ModeloCopia[][] modelo= new ModeloCopia[2][2];
 		modelo[0][0]= ModeloCopia.CORA3;
 		modelo[0][1]= ModeloCopia.PBA3;		
 		modelo[1][0]= ModeloCopia.CORA4;
 		modelo[1][1]= ModeloCopia.PBA4;		
 
-		Copia copia= null;
-
 		int formato= solicitarFormato();		
 		int cor= solicitarCor();
 
-		copia= new Copia(modelo[formato][cor]);		
+		Copia copia= new Copia(modelo[formato][cor]);		
 		return registrarQuantidadeItem(copia);	
 	}
 
 	private static ItemPedido prestarServicoImpressao() {
 
-		ModeloImpressao[][] modelo= new ModeloImpressao[4][2];
+		ModeloImpressao[][] modelo= new ModeloImpressao[2][2];
 		modelo[0][0]= ModeloImpressao.CORA3;
 		modelo[0][1]= ModeloImpressao.PBA3;		
 		modelo[1][0]= ModeloImpressao.CORA4;
 		modelo[1][1]= ModeloImpressao.PBA4;		
 
-		Impressao impressao= null;
-
 		int formato= solicitarFormato();		
 		int cor= solicitarCor();
 
-		impressao= new Impressao(modelo[formato][cor]);		
+		Impressao impressao= new Impressao(modelo[formato][cor]);		
 		return registrarQuantidadeItem(impressao);	
 	}
 
 	private static ItemPedido prestarServicoEncadernacao() {
-		// TODO Auto-generated method stub
-		return null;
+
+		ModeloEncadernacao[][] modelo= new ModeloEncadernacao[2][5];
+		modelo[0][0]= ModeloEncadernacao.SIMPLESESPIRAL;
+		modelo[0][1]= ModeloEncadernacao.SIMPLESGRAMPO;	
+		modelo[0][2]= ModeloEncadernacao.SIMPLESCOLA;	
+		modelo[1][3]= ModeloEncadernacao.DURACOSTURA;
+		modelo[1][4]= ModeloEncadernacao.DURAWIREO;		
+
+		int capa= solicitarCapa();		
+		int acabamento= solicitarAcabamento(capa);
+
+		Encadernacao encadernacao= new Encadernacao(modelo[capa][acabamento]);		
+		return registrarQuantidadeItem(encadernacao);
 	}
 
 	private static ItemPedido prestarServicoPlastificacao() {
@@ -188,11 +199,51 @@ public class Grafica {
 
 		System.out.println("...................");
 		for(TipoCor cor : TipoCor.values())
-			System.out.println("." + (cor.ordinal()+1) + " " + cor.getCor());
+			System.out.println("." + (cor.ordinal()+1) + " " + cor.getCor() + ".");
 		System.out.println("...................");
 
 		System.out.println(". Informe a cor: ");
 		return lerInteiroTeclado(1, TipoCor.values().length)-1;		 
+	}
+
+	private static int solicitarCapa() {
+
+		System.out.println("...................");
+		for(TipoCapa capa : TipoCapa.values()) 
+			System.out.println("." + (capa.ordinal()+1) + " " + capa.getCapa() + ".");
+		System.out.println("...................");
+
+		System.out.println(". Informe a capa: ");
+		return lerInteiroTeclado(1, TipoCapa.values().length)-1; 
+	}
+
+	private static int solicitarAcabamento(int capa) {
+		
+		TipoAcabamento[] acabamentos; 
+		int min, max;
+		
+		if(capa == 0) {
+			acabamentos= new TipoAcabamento[3];
+			System.arraycopy(TipoAcabamento.values(), 0, acabamentos, 0, acabamentos.length);
+						
+			min= 1;
+			max= 3;
+
+		}else {
+			acabamentos= new TipoAcabamento[2];
+			System.arraycopy(TipoAcabamento.values(), 3, acabamentos, 0, acabamentos.length);			
+			
+			min= 4;
+			max= 5;
+		}
+
+		System.out.println("...................");
+		for(TipoAcabamento acabamento : acabamentos) 
+			System.out.println("." + (acabamento.ordinal()+1) + " " + acabamento.getAcabamento() + ".");
+		System.out.println("...................");
+
+		System.out.println(". Informe o acabamento: ");		
+		return lerInteiroTeclado(min, max)-1;  
 	}
 
 	private static int lerInteiroTeclado(int opcaoInicial, int opcaoFinal) {

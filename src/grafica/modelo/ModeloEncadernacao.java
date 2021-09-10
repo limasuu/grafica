@@ -2,27 +2,28 @@ package grafica.modelo;
 
 public enum ModeloEncadernacao {
 	
-	SIMPLESESPIRAL("Capa simples", "Espiral", 6.00),
-	SIMPLESGRAMPO("Capa simples", "Grampo/Canoa", 12.00),
-	SIMPLESCOLA("Capa simples", "Colado", 25.00),
-	DURACOSTURA("Capa dura", "Costurado", 50.00),
-	DURAWIREO("Capa dura", "Wire-o", 35.00);
+	SIMPLESESPIRAL(TipoCapa.SIMPLES, TipoAcabamento.ESPIRAL, 6.00),
+	SIMPLESGRAMPO(TipoCapa.SIMPLES, TipoAcabamento.GRAMPO, 12.00),
+	SIMPLESCOLA(TipoCapa.SIMPLES, TipoAcabamento.COLA, 25.00),
+	DURACOSTURA(TipoCapa.DURA, TipoAcabamento.COSTURA, 50.00),
+	DURAWIREO(TipoCapa.DURA, TipoAcabamento.WIREO, 35.00);
 	
-	private String capa, acabamento;
+	private TipoCapa capa;
+	private TipoAcabamento acabamento;
 	private double preco;
 	
-	private ModeloEncadernacao(String capa, String acabamento, double preco) {
+	private ModeloEncadernacao(TipoCapa capa, TipoAcabamento acabamento, double preco) {
 		this.capa = capa;
 		this.acabamento = acabamento;
 		this.preco = preco;
 	}
 
 	public String getCapa() {
-		return capa;
+		return capa.getCapa();
 	}
 
 	public String getAcabamento() {
-		return acabamento;
+		return acabamento.getAcabamento();
 	}
 
 	public double getPreco() {
@@ -30,6 +31,6 @@ public enum ModeloEncadernacao {
 	}
 	
 	public String getModelo() {
-		return capa + " | " + acabamento;
+		return getCapa() + " | " + getAcabamento();
 	}
 }

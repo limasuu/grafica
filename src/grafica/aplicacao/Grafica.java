@@ -57,7 +57,7 @@ public class Grafica {
 
 		while(!atendimentoConcluido) {
 			prestarServico(pedido);	
-			
+		
 			int escolha;
 			System.out.println(".\n. Há outro o serviço a ser registrado? ");
 			System.out.println( ".1. Sim .......... 2. Não");
@@ -83,7 +83,7 @@ public class Grafica {
 		for(ServicosGrafica servico : ServicosGrafica.values())
 			System.out.println("." + (servico.ordinal()+1) + " " + servico.getServico());
 		System.out.println("...................");
-		
+
 		int escolha;
 		System.out.println(". Informe o serviço prestado: ");
 		escolha= lerInteiroTeclado(1, ServicosGrafica.values().length);
@@ -116,55 +116,38 @@ public class Grafica {
 
 	private static ItemPedido prestarServicoCopia() {
 
-		ItemPedido itemPedido= null;
-		
-		System.out.println("...................");
-		for(TipoFormato formato : TipoFormato.values()) 
-			System.out.println("." + (formato.ordinal()+1) + " " + formato.getFormato() + ".");
-		System.out.println("...................");
-		
-		int escolha;
-		System.out.println(". Informe o formato: ");
-		escolha= lerInteiroTeclado(1, TipoFormato.values().length);
+		ModeloCopia[][] modelo= new ModeloCopia[4][2];
+		modelo[0][0]= ModeloCopia.CORA3;
+		modelo[0][1]= ModeloCopia.PBA3;		
+		modelo[1][0]= ModeloCopia.CORA4;
+		modelo[1][1]= ModeloCopia.PBA4;		
 
-		switch(escolha) {
-
-		case 1:
-			itemPedido= prestarServicoCopiaA3();
-			break;
-		case 2:
-//	prestarServicoCopiaA4(copia);
-			break;
-		}
-
-		return itemPedido;
-	}
-
-	private static ItemPedido prestarServicoCopiaA3() {
-		
 		Copia copia= null;
-		
+
+
 		System.out.println("...................");
-		for(TipoCor cor : TipoCor.values())
-			System.out.println("." + (cor.ordinal()+1) + " " + cor.getCor());
+		for(TipoFormato tipoFormato : TipoFormato.values()) 
+			System.out.println("." + (tipoFormato.ordinal()+1) + " " + tipoFormato.getFormato() + ".");
 		System.out.println("...................");
-		
-		int escolha;
+
+		int formato;
+		System.out.println(". Informe o formato: ");
+		formato= lerInteiroTeclado(1, TipoFormato.values().length)-1;
+
+
+		System.out.println("...................");
+		for(TipoCor tipoCor : TipoCor.values())
+			System.out.println("." + (tipoCor.ordinal()+1) + " " + tipoCor.getCor());
+		System.out.println("...................");
+
+		int cor;
 		System.out.println(". Informe a cor: ");
-		escolha= lerInteiroTeclado(1, TipoCor.values().length);
-		
-		switch(escolha) {
-		
-		case 1:
-			copia= new Copia(ModeloCopia.CORA3);			
-			break;
-		case 2:
-			copia= new Copia(ModeloCopia.PBA3);
-			break;
-		}
-		
-		return registrarQuantidadeItem(copia);		
+		cor= lerInteiroTeclado(1, TipoCor.values().length)-1;
+
+		copia= new Copia(modelo[formato][cor]);		
+		return registrarQuantidadeItem(copia);	
 	}
+
 
 	private static ItemPedido prestarServicoImpressao() {
 		// TODO Auto-generated method stub
@@ -185,12 +168,12 @@ public class Grafica {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	private static ItemPedido registrarQuantidadeItem(Item item) {
-		
+
 		System.out.println(". Informe a quantidade: ");		
 		int quantidade= lerInteiroTeclado(1, 99999999);
-		
+
 		return new ItemPedido(item, quantidade);
 	}
 

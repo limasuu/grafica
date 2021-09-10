@@ -3,8 +3,8 @@ package grafica.modelo;
 public enum ModeloCopia {
 	
 	CORA3(TipoCor.COR, TipoFormato.A3, 3.60),
-	CORA4(TipoCor.COR, TipoFormato.A4, 1.80),
 	PBA3(TipoCor.PB, TipoFormato.A3, 0.65),
+	CORA4(TipoCor.COR, TipoFormato.A4, 1.80),	
 	PBA4(TipoCor.PB, TipoFormato.A4, 0.30);
 	
 	private TipoCor cor;

@@ -4,9 +4,11 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import grafica.modelo.Copia;
+import grafica.modelo.Impressao;
 import grafica.modelo.Item;
 import grafica.modelo.ItemPedido;
 import grafica.modelo.ModeloCopia;
+import grafica.modelo.ModeloImpressao;
 import grafica.modelo.Pedido;
 import grafica.modelo.TipoCor;
 import grafica.modelo.TipoFormato;
@@ -57,7 +59,7 @@ public class Grafica {
 
 		while(!atendimentoConcluido) {
 			prestarServico(pedido);	
-		
+
 			int escolha;
 			System.out.println(".\n. Há outro o serviço a ser registrado? ");
 			System.out.println( ".1. Sim .......... 2. Não");
@@ -124,34 +126,28 @@ public class Grafica {
 
 		Copia copia= null;
 
-
-		System.out.println("...................");
-		for(TipoFormato tipoFormato : TipoFormato.values()) 
-			System.out.println("." + (tipoFormato.ordinal()+1) + " " + tipoFormato.getFormato() + ".");
-		System.out.println("...................");
-
-		int formato;
-		System.out.println(". Informe o formato: ");
-		formato= lerInteiroTeclado(1, TipoFormato.values().length)-1;
-
-
-		System.out.println("...................");
-		for(TipoCor tipoCor : TipoCor.values())
-			System.out.println("." + (tipoCor.ordinal()+1) + " " + tipoCor.getCor());
-		System.out.println("...................");
-
-		int cor;
-		System.out.println(". Informe a cor: ");
-		cor= lerInteiroTeclado(1, TipoCor.values().length)-1;
+		int formato= solicitarFormato();		
+		int cor= solicitarCor();
 
 		copia= new Copia(modelo[formato][cor]);		
 		return registrarQuantidadeItem(copia);	
 	}
 
-
 	private static ItemPedido prestarServicoImpressao() {
-		// TODO Auto-generated method stub
-		return null;
+
+		ModeloImpressao[][] modelo= new ModeloImpressao[4][2];
+		modelo[0][0]= ModeloImpressao.CORA3;
+		modelo[0][1]= ModeloImpressao.PBA3;		
+		modelo[1][0]= ModeloImpressao.CORA4;
+		modelo[1][1]= ModeloImpressao.PBA4;		
+
+		Impressao impressao= null;
+
+		int formato= solicitarFormato();		
+		int cor= solicitarCor();
+
+		impressao= new Impressao(modelo[formato][cor]);		
+		return registrarQuantidadeItem(impressao);	
 	}
 
 	private static ItemPedido prestarServicoEncadernacao() {
@@ -175,6 +171,28 @@ public class Grafica {
 		int quantidade= lerInteiroTeclado(1, 99999999);
 
 		return new ItemPedido(item, quantidade);
+	}
+
+	private static int solicitarFormato() {
+
+		System.out.println("...................");
+		for(TipoFormato formato : TipoFormato.values()) 
+			System.out.println("." + (formato.ordinal()+1) + " " + formato.getFormato() + ".");
+		System.out.println("...................");
+
+		System.out.println(". Informe o formato: ");
+		return lerInteiroTeclado(1, TipoFormato.values().length)-1;
+	}
+
+	private static int solicitarCor() {
+
+		System.out.println("...................");
+		for(TipoCor cor : TipoCor.values())
+			System.out.println("." + (cor.ordinal()+1) + " " + cor.getCor());
+		System.out.println("...................");
+
+		System.out.println(". Informe a cor: ");
+		return lerInteiroTeclado(1, TipoCor.values().length)-1;		 
 	}
 
 	private static int lerInteiroTeclado(int opcaoInicial, int opcaoFinal) {

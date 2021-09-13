@@ -11,7 +11,9 @@ import grafica.modelo.ItemPedido;
 import grafica.modelo.ModeloCopia;
 import grafica.modelo.ModeloEncadernacao;
 import grafica.modelo.ModeloImpressao;
+import grafica.modelo.ModeloPlastificacao;
 import grafica.modelo.Pedido;
+import grafica.modelo.Plastificacao;
 import grafica.modelo.TipoAcabamento;
 import grafica.modelo.TipoCapa;
 import grafica.modelo.TipoCor;
@@ -77,7 +79,7 @@ public class Grafica {
 
 		System.out.println("-------------------------------------------------");
 		System.out.println("------------- Atendimento concluído -------------");
-
+		
 		return pedido;
 	}
 
@@ -167,8 +169,23 @@ public class Grafica {
 	}
 
 	private static ItemPedido prestarServicoPlastificacao() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ModeloPlastificacao[] modelos= new ModeloPlastificacao[4];
+		modelos[0]= ModeloPlastificacao.CRACHA;
+		modelos[1]= ModeloPlastificacao.A5;	
+		modelos[2]= ModeloPlastificacao.A4;	
+		modelos[3]= ModeloPlastificacao.A3;
+	
+		System.out.println("...................");
+		for(ModeloPlastificacao modelo : ModeloPlastificacao.values()) 
+			System.out.println("." + (modelo.ordinal()+1) + " " + modelo.getModelo() + ".");
+		System.out.println("...................");
+
+		System.out.println(". Informe o modelo: ");
+		int escolha= lerInteiroTeclado(1, ModeloPlastificacao.values().length)-1;		
+
+		Plastificacao plastificacao= new Plastificacao(modelos[escolha]);		
+		return registrarQuantidadeItem(plastificacao);
 	}
 
 	private static ItemPedido prestarServicoCartaoVisita() {
@@ -218,21 +235,21 @@ public class Grafica {
 	}
 
 	private static int solicitarAcabamento(int capa) {
-		
+
 		TipoAcabamento[] acabamentos; 
 		int min, max;
-		
+
 		if(capa == 0) {
 			acabamentos= new TipoAcabamento[3];
 			System.arraycopy(TipoAcabamento.values(), 0, acabamentos, 0, acabamentos.length);
-						
+
 			min= 1;
 			max= 3;
 
 		}else {
 			acabamentos= new TipoAcabamento[2];
 			System.arraycopy(TipoAcabamento.values(), 3, acabamentos, 0, acabamentos.length);			
-			
+
 			min= 4;
 			max= 5;
 		}

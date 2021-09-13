@@ -3,11 +3,13 @@ package grafica.aplicacao;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import grafica.modelo.CartaoVisita;
 import grafica.modelo.Copia;
 import grafica.modelo.Encadernacao;
 import grafica.modelo.Impressao;
 import grafica.modelo.Item;
 import grafica.modelo.ItemPedido;
+import grafica.modelo.ModeloCartaoVisita;
 import grafica.modelo.ModeloCopia;
 import grafica.modelo.ModeloEncadernacao;
 import grafica.modelo.ModeloImpressao;
@@ -189,8 +191,21 @@ public class Grafica {
 	}
 
 	private static ItemPedido prestarServicoCartaoVisita() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ModeloCartaoVisita[] modelos= new ModeloCartaoVisita[2];
+		modelos[0]= ModeloCartaoVisita.FRENTE;
+		modelos[1]= ModeloCartaoVisita.FRENTEVERSO;	
+	
+		System.out.println("...................");
+		for(ModeloCartaoVisita modelo : ModeloCartaoVisita.values()) 
+			System.out.println("." + (modelo.ordinal()+1) + " " + modelo.getModelo() + ".");
+		System.out.println("...................");
+
+		System.out.println(". Informe o modelo: ");
+		int escolha= lerInteiroTeclado(1, ModeloCartaoVisita.values().length)-1;		
+
+		CartaoVisita cartaoVisita= new CartaoVisita(modelos[escolha]);		
+		return registrarQuantidadeItem(cartaoVisita);
 	}
 
 	private static ItemPedido registrarQuantidadeItem(Item item) {

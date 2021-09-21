@@ -14,4 +14,8 @@ public enum TipoCor {
 	public String getCor() {
 		return cor;
 	}
+	
+	public static TipoCor getValue(int tipo) {
+		return values()[tipo];
+	}
 }

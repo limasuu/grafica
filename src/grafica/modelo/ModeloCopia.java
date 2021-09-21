@@ -2,28 +2,28 @@ package grafica.modelo;
 
 public enum ModeloCopia {
 	
-	CORA3(TipoCor.COR, TipoFormato.A3, 3.60),
-	PBA3(TipoCor.PB, TipoFormato.A3, 0.65),
-	CORA4(TipoCor.COR, TipoFormato.A4, 1.80),	
-	PBA4(TipoCor.PB, TipoFormato.A4, 0.30);
+	A3COR(TipoFormato.A3, TipoCor.COR, 3.60),
+	A3PB(TipoFormato.A3, TipoCor.PB, 0.65),
+	A4COR(TipoFormato.A4, TipoCor.COR, 1.80),	
+	A4PB(TipoFormato.A4, TipoCor.PB, 0.30);
 	
-	private TipoCor cor;
 	private TipoFormato formato;	
+	private TipoCor cor;
 	private double preco;
 	
-	private ModeloCopia(TipoCor cor, TipoFormato formato, double preco) {
+	private ModeloCopia(TipoFormato formato, TipoCor cor, double preco) {
 		
-		this.cor = cor;
 		this.formato = formato;
+		this.cor = cor;
 		this.preco = preco;
 	}
-
-	public String getFormato() {
-		return formato.getFormato();
+	
+	public TipoFormato getFormato() {
+		return formato;
 	}
 
-	public String getCor() {
-		return cor.getCor();
+	public TipoCor getCor() {
+		return cor;
 	}
 
 	public double getPreco() {
@@ -31,6 +31,21 @@ public enum ModeloCopia {
 	}
 	
 	public String getModelo() {
-		return getCor() + " | " + getFormato();
+		return formato.getFormato() + " | " + cor.getCor();
+	}
+	
+	public static ModeloCopia getValue(TipoFormato formato, TipoCor cor) {
+		
+		ModeloCopia modelo= null;
+		
+		for(ModeloCopia m : values()) 
+			
+			if(m.getFormato().equals(formato))			
+				if(m.getCor().equals(cor)){
+					modelo= m;
+					break;
+				}
+		
+		return modelo;
 	}
 }

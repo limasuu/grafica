@@ -14,4 +14,8 @@ public enum TipoFormato {
 	public String getFormato() {
 		return formato;
 	} 
+	
+	public static TipoFormato getValue(int tipo) {
+		return values()[tipo];
+	}
 }

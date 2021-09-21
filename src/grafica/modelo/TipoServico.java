@@ -8,18 +8,17 @@ public enum TipoServico implements Servico{
 
 		@Override
 		public Item prestarServico() {
-			ModeloCopia[][] modelo= new ModeloCopia[2][2];
-			modelo[0][0]= ModeloCopia.CORA3;
-			modelo[0][1]= ModeloCopia.PBA3;		
-			modelo[1][0]= ModeloCopia.CORA4;
-			modelo[1][1]= ModeloCopia.PBA4;		
+			
+			int escolha= Grafica.solicitarFormato();	
+			TipoFormato formato= TipoFormato.getValue(escolha);					
+			
+			escolha= Grafica.solicitarCor();
+			TipoCor cor= TipoCor.getValue(escolha);	
+			
+			ModeloCopia modelo= ModeloCopia.getValue(formato, cor);
 
-			int formato= Grafica.solicitarFormato();		
-			int cor= Grafica.solicitarCor();
-
-			return new Copia(modelo[formato][cor]);
+			return new Copia(modelo);
 		}
-
 
 	},
 	IMPRESSAO("Impressão"){

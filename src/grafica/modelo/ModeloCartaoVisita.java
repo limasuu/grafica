@@ -20,4 +20,8 @@ public enum ModeloCartaoVisita{
 	public double getPreco(){
 		return this.preco;
 	}
+	
+	public static ModeloCartaoVisita getValue(int tipo) {
+		return values()[tipo];
+	}
 }

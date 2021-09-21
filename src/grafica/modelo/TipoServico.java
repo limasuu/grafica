@@ -84,9 +84,6 @@ public enum TipoServico implements Servico{
 
 		@Override
 		public Item prestarServico() {
-			ModeloCartaoVisita[] modelos= new ModeloCartaoVisita[2];
-			modelos[0]= ModeloCartaoVisita.FRENTE;
-			modelos[1]= ModeloCartaoVisita.FRENTEVERSO;	
 
 			System.out.println("...................");
 			for(ModeloCartaoVisita modelo : ModeloCartaoVisita.values()) 
@@ -95,8 +92,9 @@ public enum TipoServico implements Servico{
 
 			System.out.println(". Informe o modelo: ");
 			int escolha= Grafica.lerInteiroTeclado(1, ModeloCartaoVisita.values().length)-1;		
-
-			return new CartaoVisita(modelos[escolha]);		
+			ModeloCartaoVisita modelo= ModeloCartaoVisita.getValue(escolha);
+			
+			return new CartaoVisita(modelo);		
 		}
 
 	};

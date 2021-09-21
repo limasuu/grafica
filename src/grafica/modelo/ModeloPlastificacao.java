@@ -22,4 +22,8 @@ public enum ModeloPlastificacao {
 	public double getPreco() {
 		return preco;
 	}
+	
+	public static ModeloPlastificacao getValue(int tipo) {
+		return values()[tipo];
+	}
 }

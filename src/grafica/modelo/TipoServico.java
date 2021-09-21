@@ -62,12 +62,7 @@ public enum TipoServico implements Servico{
 
 		@Override
 		public Item prestarServico() {
-			ModeloPlastificacao[] modelos= new ModeloPlastificacao[4];
-			modelos[0]= ModeloPlastificacao.CRACHA;
-			modelos[1]= ModeloPlastificacao.A5;	
-			modelos[2]= ModeloPlastificacao.A4;	
-			modelos[3]= ModeloPlastificacao.A3;
-
+			
 			System.out.println("...................");
 			for(ModeloPlastificacao modelo : ModeloPlastificacao.values()) 
 				System.out.println("." + (modelo.ordinal()+1) + " " + modelo.getModelo() + ".");
@@ -75,8 +70,9 @@ public enum TipoServico implements Servico{
 
 			System.out.println(". Informe o modelo: ");
 			int escolha= Grafica.lerInteiroTeclado(1, ModeloPlastificacao.values().length)-1;		
+			ModeloPlastificacao modelo= ModeloPlastificacao.getValue(escolha);
 
-			return new Plastificacao(modelos[escolha]);	
+			return new Plastificacao(modelo);	
 		}
 
 	},

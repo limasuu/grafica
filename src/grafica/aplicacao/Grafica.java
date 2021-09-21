@@ -3,51 +3,22 @@ package grafica.aplicacao;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import grafica.modelo.CartaoVisita;
-import grafica.modelo.Copia;
-import grafica.modelo.Encadernacao;
-import grafica.modelo.Impressao;
 import grafica.modelo.Item;
 import grafica.modelo.ItemPedido;
-import grafica.modelo.ModeloCartaoVisita;
-import grafica.modelo.ModeloCopia;
-import grafica.modelo.ModeloEncadernacao;
-import grafica.modelo.ModeloImpressao;
-import grafica.modelo.ModeloPlastificacao;
 import grafica.modelo.Pedido;
-import grafica.modelo.Plastificacao;
+import grafica.modelo.Servico;
 import grafica.modelo.TipoAcabamento;
 import grafica.modelo.TipoCapa;
 import grafica.modelo.TipoCor;
 import grafica.modelo.TipoFormato;
+import grafica.modelo.TipoServico;
 
 public class Grafica {
 
 	private static Scanner entrada;
 
 	public static void main(String[] args) {
-		/*	
-		Copia copia= new Copia(ModeloCopia.CORA4);
-		Impressao impressao= new Impressao(ModeloImpressao.PBA3);
-		CartaoVisita cartaoVisita= new CartaoVisita(ModeloCartaoVisita.FRENTE);
-		Plastificacao plastificacao= new Plastificacao(ModeloPlastificacao.A4);
-		Encadernacao encadernacao= new Encadernacao(ModeloEncadernacao.DURACOSTURA);
-
-		ItemPedido itemPedido= new ItemPedido(copia, 3);
-		ItemPedido itemPedido2= new ItemPedido(impressao, 2);
-		ItemPedido itemPedido3= new ItemPedido(cartaoVisita, 2);
-		ItemPedido itemPedido4= new ItemPedido(plastificacao, 1);
-		ItemPedido itemPedido5= new ItemPedido(encadernacao, 1);
-
-		Pedido pedido= new Pedido();
-		pedido.insereItem(itemPedido);
-		pedido.insereItem(itemPedido2);
-		pedido.insereItem(itemPedido3);
-		pedido.insereItem(itemPedido4);
-		pedido.insereItem(itemPedido5);
-
-		System.out.println(pedido);*/
-
+	
 		entrada= new Scanner(System.in);
 
 		Pedido pedido= realizarAtendimento();
@@ -81,131 +52,27 @@ public class Grafica {
 
 		System.out.println("-------------------------------------------------");
 		System.out.println("------------- Atendimento concluído -------------");
+		System.out.println(pedido);
 		
 		return pedido;
 	}
 
 	private static void prestarServico(Pedido pedido) {
 
-		ItemPedido itemPedido= null;
-
 		System.out.println("...................");
-		for(ServicosGrafica servico : ServicosGrafica.values())
+		for(TipoServico servico : TipoServico.values())
 			System.out.println("." + (servico.ordinal()+1) + " " + servico.getServico());
 		System.out.println("...................");
 
 		int escolha;
 		System.out.println(". Informe o serviço prestado: ");
-		escolha= lerInteiroTeclado(1, ServicosGrafica.values().length);
+		escolha= lerInteiroTeclado(1, TipoServico.values().length)-1;
 
-		switch(escolha) {
-
-		case 1:			
-			itemPedido= prestarServicoCopia();
-			break;
-
-		case 2:			
-			itemPedido= prestarServicoImpressao();
-			break;
-
-		case 3:			
-			itemPedido= prestarServicoEncadernacao();
-			break;
-
-		case 4:			
-			itemPedido= prestarServicoPlastificacao();
-			break;
-
-		case 5:			
-			itemPedido= prestarServicoCartaoVisita();
-			break;
-		}		
-
+		Servico servico= TipoServico.getValue(escolha);
+		Item item= servico.prestarServico();
+		
+		ItemPedido itemPedido= registrarQuantidadeItem(item);		
 		pedido.insereItem(itemPedido);
-	}
-
-	private static ItemPedido prestarServicoCopia() {
-
-		ModeloCopia[][] modelo= new ModeloCopia[2][2];
-		modelo[0][0]= ModeloCopia.CORA3;
-		modelo[0][1]= ModeloCopia.PBA3;		
-		modelo[1][0]= ModeloCopia.CORA4;
-		modelo[1][1]= ModeloCopia.PBA4;		
-
-		int formato= solicitarFormato();		
-		int cor= solicitarCor();
-
-		Copia copia= new Copia(modelo[formato][cor]);		
-		return registrarQuantidadeItem(copia);	
-	}
-
-	private static ItemPedido prestarServicoImpressao() {
-
-		ModeloImpressao[][] modelo= new ModeloImpressao[2][2];
-		modelo[0][0]= ModeloImpressao.CORA3;
-		modelo[0][1]= ModeloImpressao.PBA3;		
-		modelo[1][0]= ModeloImpressao.CORA4;
-		modelo[1][1]= ModeloImpressao.PBA4;		
-
-		int formato= solicitarFormato();		
-		int cor= solicitarCor();
-
-		Impressao impressao= new Impressao(modelo[formato][cor]);		
-		return registrarQuantidadeItem(impressao);	
-	}
-
-	private static ItemPedido prestarServicoEncadernacao() {
-
-		ModeloEncadernacao[][] modelo= new ModeloEncadernacao[2][5];
-		modelo[0][0]= ModeloEncadernacao.SIMPLESESPIRAL;
-		modelo[0][1]= ModeloEncadernacao.SIMPLESGRAMPO;	
-		modelo[0][2]= ModeloEncadernacao.SIMPLESCOLA;	
-		modelo[1][3]= ModeloEncadernacao.DURACOSTURA;
-		modelo[1][4]= ModeloEncadernacao.DURAWIREO;		
-
-		int capa= solicitarCapa();		
-		int acabamento= solicitarAcabamento(capa);
-
-		Encadernacao encadernacao= new Encadernacao(modelo[capa][acabamento]);		
-		return registrarQuantidadeItem(encadernacao);
-	}
-
-	private static ItemPedido prestarServicoPlastificacao() {
-		
-		ModeloPlastificacao[] modelos= new ModeloPlastificacao[4];
-		modelos[0]= ModeloPlastificacao.CRACHA;
-		modelos[1]= ModeloPlastificacao.A5;	
-		modelos[2]= ModeloPlastificacao.A4;	
-		modelos[3]= ModeloPlastificacao.A3;
-	
-		System.out.println("...................");
-		for(ModeloPlastificacao modelo : ModeloPlastificacao.values()) 
-			System.out.println("." + (modelo.ordinal()+1) + " " + modelo.getModelo() + ".");
-		System.out.println("...................");
-
-		System.out.println(". Informe o modelo: ");
-		int escolha= lerInteiroTeclado(1, ModeloPlastificacao.values().length)-1;		
-
-		Plastificacao plastificacao= new Plastificacao(modelos[escolha]);		
-		return registrarQuantidadeItem(plastificacao);
-	}
-
-	private static ItemPedido prestarServicoCartaoVisita() {
-		
-		ModeloCartaoVisita[] modelos= new ModeloCartaoVisita[2];
-		modelos[0]= ModeloCartaoVisita.FRENTE;
-		modelos[1]= ModeloCartaoVisita.FRENTEVERSO;	
-	
-		System.out.println("...................");
-		for(ModeloCartaoVisita modelo : ModeloCartaoVisita.values()) 
-			System.out.println("." + (modelo.ordinal()+1) + " " + modelo.getModelo() + ".");
-		System.out.println("...................");
-
-		System.out.println(". Informe o modelo: ");
-		int escolha= lerInteiroTeclado(1, ModeloCartaoVisita.values().length)-1;		
-
-		CartaoVisita cartaoVisita= new CartaoVisita(modelos[escolha]);		
-		return registrarQuantidadeItem(cartaoVisita);
 	}
 
 	private static ItemPedido registrarQuantidadeItem(Item item) {
@@ -216,7 +83,7 @@ public class Grafica {
 		return new ItemPedido(item, quantidade);
 	}
 
-	private static int solicitarFormato() {
+	public static int solicitarFormato() {
 
 		System.out.println("...................");
 		for(TipoFormato formato : TipoFormato.values()) 
@@ -227,7 +94,7 @@ public class Grafica {
 		return lerInteiroTeclado(1, TipoFormato.values().length)-1;
 	}
 
-	private static int solicitarCor() {
+	public static int solicitarCor() {
 
 		System.out.println("...................");
 		for(TipoCor cor : TipoCor.values())
@@ -238,7 +105,7 @@ public class Grafica {
 		return lerInteiroTeclado(1, TipoCor.values().length)-1;		 
 	}
 
-	private static int solicitarCapa() {
+	public static int solicitarCapa() {
 
 		System.out.println("...................");
 		for(TipoCapa capa : TipoCapa.values()) 
@@ -249,7 +116,7 @@ public class Grafica {
 		return lerInteiroTeclado(1, TipoCapa.values().length)-1; 
 	}
 
-	private static int solicitarAcabamento(int capa) {
+	public static int solicitarAcabamento(int capa) {
 
 		TipoAcabamento[] acabamentos; 
 		int min, max;
@@ -278,7 +145,7 @@ public class Grafica {
 		return lerInteiroTeclado(min, max)-1;  
 	}
 
-	private static int lerInteiroTeclado(int opcaoInicial, int opcaoFinal) {
+	public static int lerInteiroTeclado(int opcaoInicial, int opcaoFinal) {
 
 		int numero= 0;
 		boolean leitura= true;

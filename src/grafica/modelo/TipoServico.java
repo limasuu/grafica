@@ -42,17 +42,16 @@ public enum TipoServico implements Servico{
 
 		@Override
 		public Item prestarServico() {
-			ModeloEncadernacao[][] modelo= new ModeloEncadernacao[2][5];
-			modelo[0][0]= ModeloEncadernacao.SIMPLESESPIRAL;
-			modelo[0][1]= ModeloEncadernacao.SIMPLESGRAMPO;	
-			modelo[0][2]= ModeloEncadernacao.SIMPLESCOLA;	
-			modelo[1][3]= ModeloEncadernacao.DURACOSTURA;
-			modelo[1][4]= ModeloEncadernacao.DURAWIREO;		
 
-			int capa= Grafica.solicitarCapa();		
-			int acabamento=  Grafica.solicitarAcabamento(capa);
+			int escolha= Grafica.solicitarCapa();	
+			TipoCapa capa= TipoCapa.getValue(escolha);
+			
+			escolha= Grafica.solicitarAcabamento(capa);
+			TipoAcabamento acabamento= TipoAcabamento.getValue(escolha);
+			
+			ModeloEncadernacao modelo= ModeloEncadernacao.getValue(capa, acabamento);
 
-			return new Encadernacao(modelo[capa][acabamento]);	
+			return new Encadernacao(modelo);	
 		}
 
 

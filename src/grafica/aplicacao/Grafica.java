@@ -116,31 +116,16 @@ public class Grafica {
 		return lerInteiroTeclado(1, TipoCapa.values().length)-1; 
 	}
 
-	public static int solicitarAcabamento(int capa) {
+	public static int solicitarAcabamento(TipoCapa capa) {
 
-		TipoAcabamento[] acabamentos; 
-		int min, max;
-
-		if(capa == 0) {
-			acabamentos= new TipoAcabamento[3];
-			System.arraycopy(TipoAcabamento.values(), 0, acabamentos, 0, acabamentos.length);
-
-			min= 1;
-			max= 3;
-
-		}else {
-			acabamentos= new TipoAcabamento[2];
-			System.arraycopy(TipoAcabamento.values(), 3, acabamentos, 0, acabamentos.length);			
-
-			min= 4;
-			max= 5;
-		}
+		int min= TipoAcabamento.values(capa)[0].ordinal() + 1;
+		int max= min-1 + TipoAcabamento.values(capa).length;
 
 		System.out.println("...................");
-		for(TipoAcabamento acabamento : acabamentos) 
+		for(TipoAcabamento acabamento : TipoAcabamento.values(capa)) 
 			System.out.println("." + (acabamento.ordinal()+1) + " " + acabamento.getAcabamento() + ".");
 		System.out.println("...................");
-
+		
 		System.out.println(". Informe o acabamento: ");		
 		return lerInteiroTeclado(min, max)-1;  
 	}

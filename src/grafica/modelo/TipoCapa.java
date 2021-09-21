@@ -14,4 +14,8 @@ public enum TipoCapa {
 	public String getCapa() {
 		return capa;
 	}
+	
+	public static TipoCapa getValue(int tipo) {
+		return values()[tipo];
+	}
 }

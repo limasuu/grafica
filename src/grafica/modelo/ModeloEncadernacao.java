@@ -18,12 +18,12 @@ public enum ModeloEncadernacao {
 		this.preco = preco;
 	}
 
-	public String getCapa() {
-		return capa.getCapa();
+	public TipoCapa getCapa() {
+		return capa;
 	}
 
-	public String getAcabamento() {
-		return acabamento.getAcabamento();
+	public TipoAcabamento getAcabamento() {
+		return acabamento;
 	}
 
 	public double getPreco() {
@@ -31,6 +31,21 @@ public enum ModeloEncadernacao {
 	}
 	
 	public String getModelo() {
-		return getCapa() + " | " + getAcabamento();
+		return capa.getCapa() + " | " + acabamento.getAcabamento();
+	}
+	
+	public static ModeloEncadernacao getValue(TipoCapa capa, TipoAcabamento acabamento) {
+
+		ModeloEncadernacao modelo= null;
+
+		for(ModeloEncadernacao m : values()) 
+
+			if(m.getCapa().equals(capa))			
+				if(m.getAcabamento().equals(acabamento)){
+					modelo= m;
+					break;
+				}
+
+		return modelo;
 	}
 }

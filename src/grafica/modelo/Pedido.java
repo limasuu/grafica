@@ -65,17 +65,16 @@ public class Pedido {
 	@Override
 	public String toString() {
 
-		String retorno= "---------------------------------------------------------\n" +
+		String retorno= "-------------------------------------------------\n" +
 				"Pedido " + codigoPedido +				
-				"\n---------------------------------------------------------\n";
+				"\n-------------------------------------------------\n";
 
+		for(int i=0; i<itens.size(); i++)
+			retorno= retorno + (i+1)+ "- " + itens.get(i) + "\n\n";
 
-		for(ItemPedido ip : itens)
-			retorno= retorno + "- " + ip + "\n\n";
-
-		retorno= retorno + "---------------------------------------------------------\n" +
+		retorno= retorno + "-------------------------------------------------\n" +
 					"Total= R$ " +  String.format("%.2f", getTotal()) + 
-					"\n---------------------------------------------------------";
+					"\n-------------------------------------------------";
 
 		return retorno;
 	}

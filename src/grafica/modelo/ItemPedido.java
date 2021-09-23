@@ -27,7 +27,13 @@ public class ItemPedido {
 	}
 	
 	public double getValor() {
-		return item.getValor() * quantidade;
+		
+		double valor= item.getValor();
+		
+		if(quantidade >= item.getQuantidadeAtacado())
+			valor= item.getValorAtacado();
+				
+		return valor * quantidade;
 	}
 
 	@Override

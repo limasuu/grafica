@@ -42,6 +42,10 @@ public class Item {
 	public double getValor() {
 		return valor;
 	}
+	
+	public double getValorAtacado() {
+		return valor-(valor*0.1);
+	}
 
 	public void setValor(double valor) {
 		this.valor = valor;
@@ -50,7 +54,9 @@ public class Item {
 	@Override
 	public String toString() {
 
-		return descricao + " (At. " + quantidadeAtacado + 
-				")\n" + modelo + " | Valor unitário= R$ " + String.format("%.2f", valor);
+		return descricao + " | " +	modelo +
+				 "\nValor unitário= R$ " + String.format("%.2f", valor) + 				
+				" | Valor atacado= R$" + String.format("%.2f", getValorAtacado()) +
+				" - " + quantidadeAtacado + " un.";
 	}	
 }

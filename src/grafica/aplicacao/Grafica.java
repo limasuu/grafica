@@ -23,23 +23,32 @@ public class Grafica {
 
 		boolean atendimentoConcluido= false;
 		Pedido pedido= new Pedido();
+		int escolha= 1;
 
 		System.out.println("-------------------------------------------------");
 		System.out.println("-------------------- GRÁFICA --------------------");
 		System.out.println("-------------------------------------------------");
 
 		while(!atendimentoConcluido) {
-			prestarServico(pedido);	
-			
-			int escolha;
-			System.out.println(".\n. Há outro o serviço a ser registrado? ");
-			System.out.println( ".1. Sim .......... 2. Não");
-			escolha= Entrada.lerInteiroTeclado(1, 2);
 
-			if(escolha == 1)
-				System.out.println(".");
-			else
+			System.out.println(".");
+			switch(escolha) {
+			
+			case 1:				
+				prestarServico(pedido);	
+				apresentarOpcoesAtendimento();
+				escolha= Entrada.lerInteiroTeclado(1, 3);
+				break;
+			
+			case 2:
+				removerServico(pedido);
+				apresentarOpcoesAtendimento();
+				escolha= Entrada.lerInteiroTeclado(1, 3);
+				break;
+				
+			default:
 				atendimentoConcluido= true;
+			}
 		}		
 
 		System.out.println("-------------------------------------------------");
@@ -47,6 +56,17 @@ public class Grafica {
 		System.out.println(pedido);
 		
 		return pedido;
+	}
+
+	private static void removerServico(Pedido pedido) {
+		
+		System.out.println(pedido);
+		
+		int item;
+		System.out.println(". Informe o serviço a ser removido: ");
+		item= Entrada.lerInteiroTeclado(1, pedido.getItens().size()) -1;
+		
+		pedido.retiraItem(item);
 	}
 
 	private static void prestarServico(Pedido pedido) {
@@ -73,5 +93,12 @@ public class Grafica {
 		int quantidade= Entrada.lerInteiroTeclado(1, 99999999);
 
 		return new ItemPedido(item, quantidade);
+	}
+
+	private static void apresentarOpcoesAtendimento() {
+		
+		System.out.println(".\n.1. Registrar outro serviço");
+		System.out.println(".2. Remover um serviço");
+		System.out.println(".3. Encerrar atendimento");
 	}
 }

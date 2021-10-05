@@ -1,6 +1,6 @@
 package grafica.modelo;
 
-import grafica.aplicacao.Grafica;
+import grafica.es.Entrada;
 
 public enum TipoServico implements Servico{
 
@@ -9,10 +9,10 @@ public enum TipoServico implements Servico{
 		@Override
 		public Item prestarServico() {
 			
-			int escolha= Grafica.solicitarFormato();	
+			int escolha= Entrada.solicitarFormato();	
 			TipoFormato formato= TipoFormato.getValue(escolha);					
 			
-			escolha= Grafica.solicitarCor();
+			escolha= Entrada.solicitarCor();
 			TipoCor cor= TipoCor.getValue(escolha);	
 			
 			ModeloCopia modelo= ModeloCopia.getValue(formato, cor);
@@ -26,10 +26,10 @@ public enum TipoServico implements Servico{
 		@Override
 		public Item prestarServico() {
 
-			int escolha= Grafica.solicitarFormato();	
+			int escolha= Entrada.solicitarFormato();	
 			TipoFormato formato= TipoFormato.getValue(escolha);	
 			
-			escolha=  Grafica.solicitarCor();
+			escolha=  Entrada.solicitarCor();
 			TipoCor cor= TipoCor.getValue(escolha);	
 			
 			ModeloImpressao modelo= ModeloImpressao.getValue(formato, cor);
@@ -43,10 +43,10 @@ public enum TipoServico implements Servico{
 		@Override
 		public Item prestarServico() {
 
-			int escolha= Grafica.solicitarCapa();	
+			int escolha= Entrada.solicitarCapa();	
 			TipoCapa capa= TipoCapa.getValue(escolha);
 			
-			escolha= Grafica.solicitarAcabamento(capa);
+			escolha= Entrada.solicitarAcabamento(capa);
 			TipoAcabamento acabamento= TipoAcabamento.getValue(escolha);
 			
 			ModeloEncadernacao modelo= ModeloEncadernacao.getValue(capa, acabamento);
@@ -67,7 +67,7 @@ public enum TipoServico implements Servico{
 			System.out.println("...................");
 
 			System.out.println(". Informe o modelo: ");
-			int escolha= Grafica.lerInteiroTeclado(1, ModeloPlastificacao.values().length)-1;		
+			int escolha= Entrada.lerInteiroTeclado(1, ModeloPlastificacao.values().length)-1;		
 			ModeloPlastificacao modelo= ModeloPlastificacao.getValue(escolha);
 
 			return new Plastificacao(modelo);	
@@ -85,7 +85,7 @@ public enum TipoServico implements Servico{
 			System.out.println("...................");
 
 			System.out.println(". Informe o modelo: ");
-			int escolha= Grafica.lerInteiroTeclado(1, ModeloCartaoVisita.values().length)-1;		
+			int escolha= Entrada.lerInteiroTeclado(1, ModeloCartaoVisita.values().length)-1;		
 			ModeloCartaoVisita modelo= ModeloCartaoVisita.getValue(escolha);
 			
 			return new CartaoVisita(modelo);		

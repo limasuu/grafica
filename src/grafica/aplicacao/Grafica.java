@@ -1,6 +1,7 @@
 package grafica.aplicacao;
 
 import grafica.es.Entrada;
+import grafica.es.Saida;
 import grafica.modelo.Item;
 import grafica.modelo.ItemPedido;
 import grafica.modelo.Pedido;
@@ -14,7 +15,7 @@ public class Grafica {
 		Entrada.iniciar();
 
 		Pedido pedido= realizarAtendimento();
-		//gerarRecibo(pedido);
+		Saida.gerarRecibo(pedido);
 
 		Entrada.finalizar();
 	}	

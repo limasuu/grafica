@@ -1,8 +1,14 @@
 package grafica.es;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import grafica.modelo.Pedido;
 import grafica.modelo.TipoAcabamento;
 import grafica.modelo.TipoCapa;
 import grafica.modelo.TipoCor;
@@ -10,11 +16,45 @@ import grafica.modelo.TipoFormato;
 
 public class Entrada {
 
-	private static Scanner entrada;
+	private static final String PASTA_RECIBOS= "recibos";
+	private static final String ARQUIVO_CONTROLE= "./" + PASTA_RECIBOS + "/controle.txt";
+
+	private static File pasta= new File(PASTA_RECIBOS);
+	private static File file= new File(ARQUIVO_CONTROLE);	
+	private static FileReader fileReader;
+	private static BufferedReader bufferedReader;
+
+	private static Scanner entrada;	
 
 	public static void iniciar() {
 
 		entrada= new Scanner(System.in);
+
+		if(!pasta.exists()) 
+			pasta.mkdirs();
+
+		if(file.exists()) {
+			try {
+				fileReader= new FileReader(file);
+				bufferedReader= new BufferedReader(fileReader);
+
+				int controlePedidos= Integer.parseInt(bufferedReader.readLine());	
+				Pedido.setControlePedidos(controlePedidos);
+
+			} catch (FileNotFoundException e) {			
+				System.err.println("Arquivo não encontrado.");
+			} catch (NumberFormatException e) {
+				System.err.println("Não há um valor numérico armazenado no arquivo.");
+			} catch (IOException e) {
+				System.err.println("Este arquivo não existe ou não pode ser utilizado.");
+			}
+
+			try {
+				bufferedReader.close();
+			} catch (IOException e) {
+				System.err.println("Este arquivo não existe ou não pode ser utilizado.");
+			}
+		}
 	}
 
 	public static void finalizar() {
@@ -48,7 +88,7 @@ public class Entrada {
 
 		return numero;
 	}
-	
+
 	public static int solicitarFormato() {
 
 		System.out.println("...................");
@@ -91,7 +131,7 @@ public class Entrada {
 		for(TipoAcabamento acabamento : TipoAcabamento.values(capa)) 
 			System.out.println("." + (acabamento.ordinal()+1) + " " + acabamento.getAcabamento() + ".");
 		System.out.println("...................");
-		
+
 		System.out.println(". Informe o acabamento: ");		
 		return Entrada.lerInteiroTeclado(min, max)-1;  
 	}	
